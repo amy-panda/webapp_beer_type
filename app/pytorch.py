@@ -6,12 +6,23 @@ class PytorchMultiClass(nn.Module):
     def __init__(self, num_features):
         super(PytorchMultiClass, self).__init__()
         
-        self.layer_1 = nn.Linear(num_features, 850)
-        self.layer_out = nn.Linear(850, 104)
+        self.layer_1 = nn.Linear(num_features, 50)
+        # self.layer_2 = nn.Linear(10,50)
+        # self.layer_3 = nn.Linear(50,100)
+        self.layer_out = nn.Linear(50, 20)
+        self.dropout1=nn.Dropout(0.25)
+        # self.dropout2=nn.Dropout(0.1)
+        # self.dropout3=nn.Dropout(0.1)
 
     def forward(self, x):
-        x = F.dropout(F.relu(self.layer_1(x)), training=self.training)
-        return self.layer_out(x)
+        x=F.relu(self.layer_1(x))
+        x=self.dropout1(x)
+        # x=F.relu(self.layer_2(x))
+        # x=self.dropout2(x)
+        # x=F.relu(self.layer_3(x))
+        # x=self.dropout3(x)
+        x = self.layer_out(x)
+        return x
 
 
 def get_device():
